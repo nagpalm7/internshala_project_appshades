@@ -1,1 +1,8 @@
 *.pem
+env
+db.sqlite3
+*.pyc
+media
+debug.log
+requirements.txt.save
+app/static
