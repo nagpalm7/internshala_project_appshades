@@ -25,7 +25,7 @@ Pygments==2.4.2
 pygobject==3.26.1
 pyte==0.8.0
 pytz==2019.3
-pyxdg==0.25
+pyxdg==0.26
 PyYAML==3.12
 requests==2.22.0
 scandir==1.10.0
