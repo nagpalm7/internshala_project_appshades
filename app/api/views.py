@@ -16,8 +16,18 @@ class Classify(APIView):
 
 	# predict class of image
 	def post(self, request, format = None):
+		# check for image key in payload
+		if 'image' not in request.data:
+			return Response({'error':'Please upload a file.'},status=status.HTTP_400_BAD_REQUEST)
+		# check extension of the file
+		if str.endswith(request.data['image'].name, '.jpeg' ) or \
+		str.endswith(request.data['image'].name, '.jpg' ) or \
+		str.endswith(request.data['image'].name, '.png' ):
+			img = image.img_to_array(image.load_img(request.data['image'], target_size=(80, 80), grayscale=True))
+		else:
+			return Response({'error':'Please upload correct file ending with png or jpeg.'},status=status.HTTP_400_BAD_REQUEST)
+
 		# preprocess the image
-		img = image.img_to_array(image.load_img(request.data['image'], target_size=(80, 80), grayscale=True))
 		# img = np.array(img)
 		img = img.astype('float64')
 
@@ -30,6 +40,4 @@ class Classify(APIView):
 
 		# Decoding results from TensorFlow Serving server
 		pred = json.loads(r.content.decode('utf-8'))
-		print(pred)
 		return Response(pred, status=status.HTTP_200_OK)
-		return Response(status=status.HTTP_400_BAD_REQUEST)
